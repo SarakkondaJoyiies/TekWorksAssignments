@@ -1,0 +1,263 @@
+#Date 20th DEC 2024 
+
+select * from student where city="pune";
++-----+-------+-------+------+------------+--------+
+| sno | sname | marks | city | mobile     | gender |
++-----+-------+-------+------+------------+--------+
+|   4 | Sabi  |    67 | pune | 9849423232 | female |
++-----+-------+-------+------+------------+--------+
+
+1 row in set (0.00 sec)
+
+mysql> select * from student where city="pune" or city="Hyderabad";
++-----+-----------+-------+-----------+------------+--------+
+| sno | sname     | marks | city      | mobile     | gender |
++-----+-----------+-------+-----------+------------+--------+
+|   2 | Aishu     |   100 | Hyderabad | 9849446864 | female |
+|   3 | Sreenidhi |   100 | Hyderabad | 9849423232 | female |
+|   4 | Sabi      |    67 | pune      | 9849423232 | female |
+|  10 | frisen    |    54 | Hyderabad | 9234876412 | male   |
++-----+-----------+-------+-----------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from student where (gender="female" and city="Hyderabad") or (gender="male" and city="pune") or city="bnglr";
++-----+-----------+-------+-----------+------------+--------+
+| sno | sname     | marks | city      | mobile     | gender |
++-----+-----------+-------+-----------+------------+--------+
+|   2 | Aishu     |   100 | Hyderabad | 9849446864 | female |
+|   3 | Sreenidhi |   100 | Hyderabad | 9849423232 | female |
+|   5 | neha      |    78 | bnglr     | 9985617514 | female |
++-----+-----------+-------+-----------+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Student where (city="Hyderabad" and (gender="male" and marks>70) and (gender="female" and marks>50)) or (city="Pune" and gender="male") or (city!="bnglr");
++-----+-----------+-------+--------------+------------+--------+
+| sno | sname     | marks | city         | mobile     | gender |
++-----+-----------+-------+--------------+------------+--------+
+|   1 | Joyiies   |    90 | Mahabubnagar | 7396302868 | female |
+|   2 | Aishu     |   100 | Hyderabad    | 9849446864 | female |
+|   3 | Sreenidhi |   100 | Hyderabad    | 9849423232 | female |
+|   4 | Sabi      |    67 | pune         | 9849423232 | female |
+|   6 | sam       |    99 | chennai      | 9988776655 | female |
+|   7 | aman      |    83 | kurnool      | 9988773322 | male   |
+|   8 | wilson    |    97 | Mahabubnagar | 9966773322 | male   |
+|   9 | princy    |    66 | mumbai       | 9234123412 | female |
+|  10 | frisen    |    54 | Hyderabad    | 9234876412 | male   |
++-----+-----------+-------+--------------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select * from student where (marks>50 and marks<80) and (city="hyderabad" or city="bnglr");
++-----+--------+-------+-----------+------------+--------+
+| sno | sname  | marks | city      | mobile     | gender |
++-----+--------+-------+-----------+------------+--------+
+|   5 | neha   |    78 | bnglr     | 9985617514 | female |
+|  10 | frisen |    54 | Hyderabad | 9234876412 | male   |
++-----+--------+-------+-----------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student where sname like "s%a";
+Empty set (0.00 sec)
+
+mysql> select city,count(*) as std_count from student group by city;
++--------------+-----------+
+| city         | std_count |
++--------------+-----------+
+| bnglr        |         1 |
+| chennai      |         1 |
+| Hyderabad    |         3 |
+| kurnool      |         1 |
+| Mahabubnagar |         2 |
+| mumbai       |         1 |
+| pune         |         1 |
++--------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select city, AVG(marks) as average_score from student group by city order by average_score desc limit 1;
++---------+---------------+
+| city    | average_score |
++---------+---------------+
+| chennai |       99.0000 |
++---------+---------------+
+1 row in set (0.00 sec)
+
+mysql>  select city,Max(marks) as top_score from student group by city order by max(marks) desc;
++--------------+-----------+
+| city         | top_score |
++--------------+-----------+
+| Hyderabad    |       100 |
+| chennai      |        99 |
+| Mahabubnagar |        97 |
+| kurnool      |        83 |
+| bnglr        |        78 |
+| pune         |        67 |
+| mumbai       |        66 |
++--------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from student where city="Hyderabad" order by marks desc limit 1;
++-----+-------+-------+-----------+------------+--------+
+| sno | sname | marks | city      | mobile     | gender |
++-----+-------+-------+-----------+------------+--------+
+|   2 | Aishu |   100 | Hyderabad | 9849446864 | female |
++-----+-------+-------+-----------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> create database retail;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> connect retail;
+Connection id:    9
+Current database: retail
+
+mysql> create table salespeople(snum int NOT NULL,sname varchar(30) NOT NULL,city varchar(30) NOT NULL,comm decimal(4,2)NOT NULL,primary key(snum));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into salespeople values(1001,"Peel","London",0.12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into salespeople values(1001,"Serres","San Jose",0.13);
+ERROR 1062 (23000): Duplicate entry '1001' for key 'PRIMARY'
+mysql> insert into salespeople values(1002,"Serres","San Jose",0.13);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  insert into salespeople values(1003,"AxelRod","New York",0.10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  insert into salespeople values(1004,"Motika","London",0.11);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  insert into salespeople values(1005,"Fran","London",0.26);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  insert into salespeople values(1007,"Rifkin","Bracelona",0.15);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table customer(cnum int not null, cname varchar(30) not null,city varchar(30) not null, rating int not null, snum int not null, primary key(cnum), foreign key(snum) references salespeople(snum));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into customer values(2001,"Hoffman","London",100,1001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values(2002,"Giovanni","Rome",200,1003);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(2003,"Liu","San Jose",200,1002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(2004,"Grass","Berlin",300,1002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(2006,"Clemens","London",100,1001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(2008,"Cisneros","San Jose",300,1007);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(2007,"Pereira","Rome",100,1004);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| snum | sname   | city      | comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1003 | AxelRod | New York  | 0.10 |
+| 1004 | Motika  | London    | 0.11 |
+| 1005 | Fran    | London    | 0.26 |
+| 1007 | Rifkin  | Bracelona | 0.15 |
++------+---------+-----------+------+
+6 rows in set (0.01 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select s.sname, COUNT(c.cnum) as num_customers  from salespeople s  LEFT JOIN customer c ON s.snum = c.snum  group by s.snum, s.sname;
++---------+---------------+
+| sname   | num_customers |
++---------+---------------+
+| Peel    |             2 |
+| Serres  |             2 |
+| AxelRod |             1 |
+| Motika  |             1 |
+| Fran    |             0 |
+| Rifkin  |             1 |
++---------+---------------+
+6 rows in set (0.02 sec)
+
+mysql> SELECT sname FROM salespeople s WHERE NOT EXISTS (SELECT * FROM customer c WHERE s.snum = c.snum);
++-------+
+| sname |
++-------+
+| Fran  |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT cname, rating FROM customer WHERE rating = (SELECT MIN(rating) FROM customer);
++---------+--------+
+| cname   | rating |
++---------+--------+
+| Hoffman |    100 |
+| Clemens |    100 |
+| Pereira |    100 |
++---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT s.sname, s.city FROM salespeople s JOIN customer c ON s.snum = c.snum WHERE s.city = c.city;
++--------+----------+
+| sname  | city     |
++--------+----------+
+| Peel   | London   |
+| Serres | San Jose |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT s.snum, s.sname FROM salespeople s JOIN customer c ON s.snum = c.snum GROUP BY s.snum, s.sname HAVING COUNT(c.cnum) > 1;
++------+--------+
+| snum | sname  |
++------+--------+
+| 1001 | Peel   |
+| 1002 | Serres |
++------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT cname, rating FROM customer WHERE city = 'San Jose' AND rating > 200;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| Cisneros |    300 |
++----------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT cname, rating FROM customer WHERE rating > (SELECT AVG(rating) FROM customer WHERE city = 'San Jose');
++----------+--------+
+| cname    | rating |
++----------+--------+
+| Grass    |    300 |
+| Cisneros |    300 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT s.sname, COUNT(c.cnum) AS num_customers FROM salespeople s LEFT JOIN customer c ON s.snum = c.snum GROUP BY s.snum, s.sname;
++---------+---------------+
+| sname   | num_customers |
++---------+---------------+
+| Peel    |             2 |
+| Serres  |             2 |
+| AxelRod |             1 |
+| Motika  |             1 |
+| Fran    |             0 |
+| Rifkin  |             1 |
++---------+---------------+
+6 rows in set (0.00 sec)
